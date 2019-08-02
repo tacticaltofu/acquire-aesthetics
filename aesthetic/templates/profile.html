@@ -1,0 +1,161 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="grid-container">
+		{% if current_user.is_authenticated and current_user == user %}
+			<div class="media profile-box login">
+				<div class="media-body">
+					<h4 class="media-heading">{{ user.username }}'s profile</h4>
+					<img class="profile-img" src="{{ image_file }}">
+					
+						<a href="{{ url_for('change_username') }}">change username</a>
+						<a href="{{ url_for('change_password') }}">change password</a>
+						<form method="POST" action="" enctype="multipart/form-data">
+							{{ form.hidden_tag() }}
+							{{ form.picture.label(class="custom-file-label") }}
+							{{ form.picture(class="custom-file-input") }}
+							{% if form.picture.errors %}
+								{% for error in form.picture.errors %}
+									<br><span class="text-danger">{{ error }}</span></br>
+								{% endfor %}
+							{% endif %}
+							{{ form.submit(class="btn btn-default btn-block") }}
+						</form>
+					
+				</div>
+			</div>
+		{% else %}
+			<div class="media profile-box logout">
+				<div class="media-body">
+					<h4 class="media-heading">{{ user.username }}'s profile</h4>
+					<img class="profile-img" src="{{ image_file }}">
+				</div>
+			</div>
+		{% endif %}
+		{% if current_user.is_authenticated and current_user == user %}
+			<div class="media login">
+				<div class="media-body">
+					<form method="POST" action="">
+						{{ info_form.hidden_tag() }}
+						{{ info_form.about_me(class="form-control mb-3", rows="15") }}
+						{{ info_form.update_info(class="btn btn-default btn-block") }}
+					</form>
+				</div>
+			</div>
+		{% else %}
+			<div class="media logout">
+				<div class="media-body">
+					<p>{{ user.about_me|markdown }}</p>
+				</div>
+			</div>
+		{% endif %}
+		
+		{% if current_user.is_authenticated and current_user == user %}
+			<div class="media record-form">
+				<div class="media-body">
+					<form method="POST" action="">
+						{{ measure_form.hidden_tag() }}
+						<h6>Enter your body measurements in centimeters:</h6>
+						{{ measure_form.neck(class="form-control mb-3") }}
+						{{ measure_form.shoulders(class="form-control mb-3") }}
+						{{ measure_form.biceps(class="form-control mb-3") }}
+						{{ measure_form.chest(class="form-control mb-3") }}
+						{{ measure_form.waist(class="form-control mb-3") }}
+						{{ measure_form.hips(class="form-control mb-3") }}
+						{{ measure_form.thigh(class="form-control mb-3") }}
+						{{ measure_form.calf(class="form-control mb-3") }}
+						{{ measure_form.submit(class="btn btn-default btn-block", onClick="setTimeout(function(){window.location.href=window.location.href}, 1);") }}
+					</form>
+				</div>
+			</div>
+				{% else %}
+					{% if measurement %}
+						<div class="media current-stats">
+							<div class="media-body">
+								<h6>{{ user.username}}'s stats as of {{ measurement.date_recorded.strftime("%Y-%m-%d") }}</h6>
+								<table class="table table-hover">
+									<tr>
+										<td>Neck</td>
+										<td>{{ measurement.neck|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Shoulders</td>
+										<td>{{ measurement.shoulders|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Biceps</td>
+										<td>{{ measurement.biceps|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Chest</td>
+										<td>{{ measurement.chest|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Waist</td>
+										<td>{{ measurement.waist|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Hips</td>
+										<td>{{ measurement.hips|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Thigh</td>
+										<td>{{ measurement.thigh|round(1, 'floor') }}cm</td>
+									</tr>
+									<tr>
+										<td>Calf</td>
+										<td>{{ measurement.calf|round(1, 'floor') }}cm</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					{% else %}
+						<div class="media">
+							<div class="media-body record-form">
+								<p>{{ user.username }} has not recorded any measurements yet.</p>
+							</div>
+						</div>
+					{% endif %}
+				{% endif %}
+		{% if current_user.is_authenticated and current_user == user %}
+			<div class="media record-form">
+		{% else %}
+			<div class="media current-stats">
+		{% endif %}
+			<div class="media-body">
+				{% if history %}
+					<table class="table table-hover">
+						<tr>
+							<th rowspan="2">Date</th>
+							<th colspan="8">Measurement (cm)</th>
+						</tr>
+						<tr>
+							<th>Neck</th>
+							<th>Shoulders</th>
+							<th>Biceps</th>
+							<th>Chest</th>
+							<th>Waist</th>
+							<th>Hips</th>
+							<th>Thigh</th>
+							<th>Calf</th>
+						</tr>
+						{% for measurement in history %}
+							<tr>
+								<td>{{ measurement.date_recorded.strftime("%Y-%m-%d") }}</td>
+								<td>{{ measurement.neck|round(1, 'floor') }}</td>
+								<td>{{ measurement.shoulders|round(1, 'floor') }}</td>
+								<td>{{ measurement.biceps|round(1, 'floor') }}</td>
+								<td>{{ measurement.chest|round(1, 'floor') }}</td>
+								<td>{{ measurement.waist|round(1, 'floor') }}</td>
+								<td>{{ measurement.hips|round(1, 'floor') }}</td>
+								<td>{{ measurement.thigh|round(1, 'floor') }}</td>
+								<td>{{ measurement.calf|round(1, 'floor') }}</td>
+							</tr>
+						{% endfor %}
+					</table>
+				{% else %}
+					<p>{{ user.username }} does not have any recorded measurements.</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock content %}

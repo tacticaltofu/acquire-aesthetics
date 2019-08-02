@@ -1,0 +1,250 @@
+body {
+	font-family: Verdana;
+	background-color: #eee;
+}
+
+a, a:hover {
+	text-decoration: none;
+}
+
+form {
+	margin: auto;
+	text-align: center;
+}
+
+.header {
+	background-color: white;
+	padding: 10px;
+	overflow: hidden;
+}
+
+.header a {
+	color: red;
+	font-size: 1em;
+	border-radius: 10px;
+	padding: 15px;
+	text-align: center;
+	line-height: 80px;
+}
+
+.header a:hover {
+	color: tomato;
+}
+
+.header-right {
+	float: right;
+}
+
+.header a.logo {
+	font-size: 1.5em;
+	font-weight: bold;
+	font-variant: small-caps;
+	letter-spacing: 5px;
+	word-spacing: 10px;
+}
+.header a.logo:hover {
+	background-color: #f1f1f1;
+}
+
+.navbar {
+	margin: 0;
+	padding: 0;
+}
+
+.navbar ul {
+	list-style-type: none;
+	background-color: #303030;
+	line-height: 60px;
+	width: 100%;
+}
+
+.navbar li {
+	display: inline-block;
+}
+
+.navbar li a {
+	color: white;
+	padding: 15px;
+	text-align: center;
+}
+
+.navbar li a:hover {
+	background-color: #616161;
+}
+
+.nav-right {
+	float: right;
+	padding-right: 40px;
+}
+
+.content {
+	padding: 20px 20px 0 20px;
+	border-radius: 10px;
+	background-color: white;
+	margin: 40px 20px;
+}
+
+.content h4 a {
+	color: #282828;
+}
+
+.content h4 a:hover {
+	color: #566573;
+	text-decoration: none;
+}
+
+.form-box {
+	padding: 20px 20px 3px 20px;
+	border-radius: 10px;
+	background-color: white;
+	margin: 20px auto 0 auto;
+	max-width: 300px;
+}
+
+.alert {
+	border-radius: 10px;
+	text-align: center;
+	margin: auto;
+	max-width: 300px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 330px auto;
+  grid-gap: 10px;
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.grid-container > div {
+  background-color: white;
+  padding: 20px 20px 40px 20px;
+  border-radius: 2px;
+}
+
+.profile-box {
+	text-align: center;
+}
+
+.login {
+	max-height: 520px;
+	overflow: auto;
+}
+
+.logout {
+	max-height: 355px;
+	overflow: auto;
+}
+
+.profile-box a {
+	display: block;
+	padding-top: 15px;
+	color: red;
+}
+
+.profile-box a:hover {
+	color: tomato;
+}
+
+.profile-img {
+	max-height: 256px;
+	max-width: 256px;
+	margin: auto;
+	border: 1px solid black;
+}
+
+/*
+.file-label {
+	padding-top: 15px;
+	color: red;
+}
+
+.file-label:hover {
+	color: tomato;
+	cursor: pointer;
+}
+
+.file-input {
+	display: none;
+}
+*/
+
+.custom-file-label {
+	position: relative;
+	padding-top: 15px;
+	color: red;
+	border: none;
+	background-color: white;
+}
+
+.custom-file-label:hover {
+	color: tomato;
+	cursor: pointer;
+}
+
+.custom-file-label:after {
+	position: relative;
+	display: none;
+}
+
+.custom-file-input {
+	display: none;
+}
+
+.text-danger {
+	font-size: 0.75em;
+}
+
+.red-link {
+	color: red;
+	float: right;
+	padding: 0 15px 0 15px;
+}
+
+.red-link:hover {
+	color: tomato;
+}
+
+.formatted {
+	white-space: pre-line;
+}
+
+.media-body img, iframe {
+	max-width: 100%;
+}
+
+.measurement-box {
+	grid-column: 1 / 3;
+}
+
+.measurement-box input {
+	width: 50px;
+}
+
+.record-form {
+	max-height: 600px;
+	overflow: auto;
+}
+
+.current-stats {
+	max-height: 490px;
+	overflow: auto;
+}
+
+@media screen and (max-width: 800px) {
+	.header a {
+		display: block;
+		line-height: 30px;
+		text-align: left;
+	}
+	.header-right {
+		float: none;
+	}
+	.header a:hover {
+		background-color: #f1f1f1;
+	}
+	.grid-container {
+		grid-template-columns: auto;
+	}
+}
