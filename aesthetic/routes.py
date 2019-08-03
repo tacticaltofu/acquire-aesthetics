@@ -93,7 +93,7 @@ def profile(username):
         
     info_form.about_me.data = user.about_me
 
-    if measure_form.validate_on_submit() and measure_form.neck.data:
+    if measure_form.validate_on_submit():
         measure = Measurement(neck=measure_form.neck.data,
                               shoulders=measure_form.shoulders.data,
                               biceps=measure_form.biceps.data,
@@ -106,7 +106,7 @@ def profile(username):
         db.session.add(measure)
         db.session.commit()
         flash('Measurements recorded!', 'success')
-
+        return redirect(url_for('profile', username=current_user.username))
     return render_template('profile.html', title='Profile', image_file=image_file, form=form, info_form=info_form, user=user, measure_form=measure_form, measurement=measurement, history=history)
 
 """
@@ -126,7 +126,7 @@ def change_username():
             current_user.username = change_username_form.new_username.data
             db.session.commit()
             flash('Your username has been changed!', 'success')
-            return redirect(url_for('profile'))
+            return redirect(url_for('profile', username=current_user.username))
         else:
             flash('The password is incorrect.', 'danger')
     return render_template('change_username.html', title='Change Username', change_username_form=change_username_form)
@@ -141,7 +141,7 @@ def change_password():
             current_user.password = hashed_pw
             db.session.commit()
             flash('Your password has been changed!', 'success')
-            return redirect(url_for('profile'))
+            return redirect(url_for('profile', username=current_user.username))
         else:
             flash('The current password is incorrect.', 'danger')
     return render_template('change_password.html', title='Change Password', change_password_form=change_password_form)
