@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
     measurements = db.relationship('Measurement', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
+    goals = db.relationship('Goal', backref='author', lazy=True)
 
     def __repr__(self):
         return f"User('{self.username}', '{self.image_file}')"
@@ -55,6 +56,23 @@ class Measurement(db.Model):
 
     def __repr__(self):
         return f"Measurement('{self.author}', '{self.date_recorded}')"
+
+class Goal(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_recorded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    neck = db.Column(db.Numeric)
+    shoulders = db.Column(db.Numeric)
+    biceps = db.Column(db.Numeric)
+    chest = db.Column(db.Numeric)
+    waist = db.Column(db.Numeric)
+    hips = db.Column(db.Numeric)
+    thigh = db.Column(db.Numeric)
+    calf = db.Column(db.Numeric)
+    body_parts = [neck, shoulders, biceps, chest, waist, hips, thigh, calf]
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Goal('{self.author}', '{self.date_recorded}')"
 
 def init_db():
     db.drop_all()

@@ -4,7 +4,7 @@ from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from aesthetic import app, db, bcrypt
 from aesthetic.forms import Register, Login, ChangeUsername, ChangePassword, ChangeProfilePic, CreatePost, UpdateProfileInfo, CreateMeasurement, CreateComment
-from aesthetic.models import User, Post, Measurement, Comment
+from aesthetic.models import User, Post, Measurement, Comment, Goal
 
 @app.route("/")
 @app.route("/home")
@@ -74,6 +74,12 @@ def profile(username):
         measurement = None
         history = None
 
+    goals = Goal.query.filter_by(author=user).all()
+    if goals:
+        goal = goals[-1]
+    else:
+        goal = None
+    
     form = ChangeProfilePic()
     info_form = UpdateProfileInfo()
     measure_form = CreateMeasurement()
@@ -107,7 +113,7 @@ def profile(username):
         db.session.commit()
         flash('Measurements recorded!', 'success')
         return redirect(url_for('profile', username=current_user.username))
-    return render_template('profile.html', title='Profile', image_file=image_file, form=form, info_form=info_form, user=user, measure_form=measure_form, measurement=measurement, history=history)
+    return render_template('profile.html', title=user.username + '\'s profile', image_file=image_file, form=form, info_form=info_form, user=user, measure_form=measure_form, measurement=measurement, history=history, goal=goal)
 
 """
 @app.route("/profile/<username>")
@@ -116,6 +122,42 @@ def user_profile(username):
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
     return render_template('profile.html', title='Profile', image_file=image_file, user=user)
 """
+
+@app.route("/set_goals", methods=['GET', 'POST'])
+@login_required
+def set_goals():
+    form = CreateMeasurement()
+    if form.validate_on_submit():
+        goal = Goal(neck=form.neck.data,
+                      shoulders=form.shoulders.data,
+                      biceps=form.biceps.data,
+                      chest=form.chest.data,
+                      waist=form.waist.data,
+                      hips=form.hips.data,
+                      thigh=form.thigh.data,
+                      calf=form.calf.data,
+                      author=current_user)
+        db.session.add(goal)
+        db.session.commit()
+        flash('Goals set!', 'success')
+        return redirect(url_for('profile', username=current_user.username))
+    return render_template('set_goals.html', title='Set Goals', form=form)
+
+@app.route("/profile/<username>/posts")
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    title = user.username + '\'s posts'
+    return render_template('user_posts.html', posts=posts, title=title, user=user)
+
+@app.route("/profile/<username>/comments")
+def user_comments(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    comments = Comment.query.filter_by(author=user).order_by(Comment.date_posted.desc()).paginate(page=page, per_page=5)
+    title = user.username + '\'s comments'
+    return render_template('user_comments.html', comments=comments, title=title, user=user)
 
 @app.route("/change_username", methods=['GET', 'POST'])
 @login_required

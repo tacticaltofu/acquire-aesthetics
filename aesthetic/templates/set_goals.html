@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}	
+	<div class="form-box">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<div class="form-group">
+				{{ form.neck(class="form-control mb-3") }}
+				{{ form.shoulders(class="form-control mb-3") }}
+				{{ form.biceps(class="form-control mb-3") }}
+				{{ form.chest(class="form-control mb-3") }}
+				{{ form.waist(class="form-control mb-3") }}
+				{{ form.hips(class="form-control mb-3") }}
+				{{ form.thigh(class="form-control mb-3") }}
+				{{ form.calf(class="form-control mb-3") }}
+				{{ form.submit(class="btn btn-default btn-block") }}
+			</div>
+		</form>
+	</div>
+{% endblock content %}

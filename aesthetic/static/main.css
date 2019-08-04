@@ -127,8 +127,13 @@ form {
 	text-align: center;
 }
 
+.profile-box div div a{
+	display: inline;
+	padding: 10px;
+}
+
 .login {
-	max-height: 520px;
+	max-height: 535px;
 	overflow: auto;
 }
 

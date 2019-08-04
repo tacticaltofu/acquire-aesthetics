@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="mb-4">{{ user.username }}'s comments</h2>
+{% if comments.items %}
+	{% for comment in comments.items %}
+		<div class="media content border">
+			<div class="media-left">
+				<a href="{{ url_for('profile', username=comment.author.username) }}"><img src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" class="media-object comment-img"></a>
+			</div>
+			<div class="media-body">
+				<p class="formatted"><a href="{{ url_for('profile', username=comment.author.username) }}">{{ comment.author.username }}</a> commented on the post <a href="{{ url_for('post', post_id=comment.parent.id) }}">{{ comment.parent.title }}</a> on <a href="#">{{ comment.date_posted.strftime("%Y-%m-%d") }}</a>:</p>
+				<p class="formatted">{{ comment.content|markdown }}</p>
+			</div>
+			<br>
+			<hr>
+		</div>
+	{% endfor %}
+{% else%}
+	<div class="media content border">
+		<p>{{ user.username }} has not posted any comments yet.</p>
+	</div>
+{% endif %}
+
+<center>
+	{% for page_num in comments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+		{% if page_num %}
+			{% if comments.page == page_num %}
+				<a href="{{ url_for('home', page=page_num) }}" class="btn btn-secondary m-1 mb-4">{{ page_num }}</a>
+			{% else %}
+				<a href="{{ url_for('home', page=page_num) }}" class="btn btn-outline-secondary m-1 mb-4">{{ page_num }}</a>
+			{% endif %}
+		{% else %}
+			...
+		{% endif %}
+	{% endfor %}
+</center>
+
+{% endblock content %}

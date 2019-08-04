@@ -4,9 +4,13 @@
 		{% if current_user.is_authenticated and current_user == user %}
 			<div class="media profile-box login">
 				<div class="media-body">
+				<div class="mb-3">
+					<a href="{{ url_for('set_goals') }}">set goals</a>
+					<a href="{{ url_for('user_posts', username=user.username)}}">posts</a>
+					<a href="{{ url_for('user_comments', username=user.username) }}">comments</a>
+				</div>
 					<h4 class="media-heading">{{ user.username }}'s profile</h4>
 					<img class="profile-img" src="{{ image_file }}">
-					
 						<a href="{{ url_for('change_username') }}">change username</a>
 						<a href="{{ url_for('change_password') }}">change password</a>
 						<form method="POST" action="" enctype="multipart/form-data">
@@ -26,6 +30,10 @@
 		{% else %}
 			<div class="media profile-box logout">
 				<div class="media-body">
+				<div class="mb-3">
+					<a href="{{ url_for('user_posts', username=user.username)}}">posts</a>
+					<a href="{{ url_for('user_comments', username=user.username) }}">comments</a>
+				</div>
 					<h4 class="media-heading">{{ user.username }}'s profile</h4>
 					<img class="profile-img" src="{{ image_file }}">
 				</div>
@@ -36,7 +44,7 @@
 				<div class="media-body">
 					<form method="POST" action="">
 						{{ info_form.hidden_tag() }}
-						{{ info_form.about_me(class="form-control mb-3", rows="15") }}
+						{{ info_form.about_me(class="form-control mb-3", rows="18") }}
 						{{ info_form.update_info(class="btn btn-default btn-block") }}
 					</form>
 				</div>
@@ -54,7 +62,7 @@
 				<div class="media-body">
 					<form method="POST" action="">
 						{{ measure_form.hidden_tag() }}
-						<h6>Enter your body measurements in centimeters:</h6>
+						<h6>Enter measurements in cm:</h6>
 						{{ measure_form.neck(class="form-control mb-3") }}
 						{{ measure_form.shoulders(class="form-control mb-3") }}
 						{{ measure_form.biceps(class="form-control mb-3") }}
@@ -68,42 +76,42 @@
 				</div>
 			</div>
 				{% else %}
-					{% if measurement %}
+					{% if goal %}
 						<div class="media current-stats">
 							<div class="media-body">
-								<h6>{{ user.username}}'s stats as of {{ measurement.date_recorded.strftime("%Y-%m-%d") }}</h6>
+								<h6 class="text-center">{{ user.username}}'s goals as of {{ goal.date_recorded.strftime("%Y-%m-%d") }}</h6>
 								<table class="table table-hover">
 									<tr>
 										<td>Neck</td>
-										<td>{{ measurement.neck|round(1, 'floor') }}cm</td>
+										<td>{{ goal.neck|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Shoulders</td>
-										<td>{{ measurement.shoulders|round(1, 'floor') }}cm</td>
+										<td>{{ goal.shoulders|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Biceps</td>
-										<td>{{ measurement.biceps|round(1, 'floor') }}cm</td>
+										<td>{{ goal.biceps|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Chest</td>
-										<td>{{ measurement.chest|round(1, 'floor') }}cm</td>
+										<td>{{ goal.chest|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Waist</td>
-										<td>{{ measurement.waist|round(1, 'floor') }}cm</td>
+										<td>{{ goal.waist|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Hips</td>
-										<td>{{ measurement.hips|round(1, 'floor') }}cm</td>
+										<td>{{ goal.hips|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Thigh</td>
-										<td>{{ measurement.thigh|round(1, 'floor') }}cm</td>
+										<td>{{ goal.thigh|round(1, 'floor') }}cm</td>
 									</tr>
 									<tr>
 										<td>Calf</td>
-										<td>{{ measurement.calf|round(1, 'floor') }}cm</td>
+										<td>{{ goal.calf|round(1, 'floor') }}cm</td>
 									</tr>
 								</table>
 							</div>
@@ -111,7 +119,7 @@
 					{% else %}
 						<div class="media">
 							<div class="media-body record-form">
-								<p>{{ user.username }} has not recorded any measurements yet.</p>
+								<p>{{ user.username }} has not set themselves any goals yet.</p>
 							</div>
 						</div>
 					{% endif %}
