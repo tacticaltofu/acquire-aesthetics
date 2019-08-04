@@ -26,9 +26,9 @@
 	{% for page_num in comments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 		{% if page_num %}
 			{% if comments.page == page_num %}
-				<a href="{{ url_for('home', page=page_num) }}" class="btn btn-secondary m-1 mb-4">{{ page_num }}</a>
+				<a href="{{ url_for('user_comments', page=page_num, username=user.username) }}" class="btn btn-secondary m-1 mb-4">{{ page_num }}</a>
 			{% else %}
-				<a href="{{ url_for('home', page=page_num) }}" class="btn btn-outline-secondary m-1 mb-4">{{ page_num }}</a>
+				<a href="{{ url_for('user_comments', page=page_num, username=user.username) }}" class="btn btn-outline-secondary m-1 mb-4">{{ page_num }}</a>
 			{% endif %}
 		{% else %}
 			...
