@@ -3,8 +3,8 @@ import secrets
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from aesthetic import app, db, bcrypt
-from aesthetic.forms import Register, Login, ChangeUsername, ChangePassword, ChangeProfilePic, CreatePost, UpdateProfileInfo, CreateMeasurement
-from aesthetic.models import User, Post, Measurement
+from aesthetic.forms import Register, Login, ChangeUsername, ChangePassword, ChangeProfilePic, CreatePost, UpdateProfileInfo, CreateMeasurement, CreateComment
+from aesthetic.models import User, Post, Measurement, Comment
 
 @app.route("/")
 @app.route("/home")
@@ -158,10 +158,18 @@ def create_post():
         return redirect(url_for('home'))
     return render_template('create_post.html', title='Create Post', form=form)
     
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods=['GET', 'POST'])
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    comments = Comment.query.filter_by(parent=post)
+    form = CreateComment()
+    if form.validate_on_submit():
+        comment = Comment(content=form.content.data, author=current_user, parent=post)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment posted!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    return render_template('post.html', title=post.title, post=post, form=form, comments=comments[::-1])
 
 @app.route("/post/<int:post_id>/update_post", methods=['GET', 'POST'])
 @login_required

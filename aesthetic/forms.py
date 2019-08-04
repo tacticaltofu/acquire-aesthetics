@@ -73,6 +73,11 @@ class CreatePost(FlaskForm):
                             render_kw={"placeholder":"content"})
     submit = SubmitField('submit')
 
+class CreateComment(FlaskForm):
+    content = TextAreaField('content', validators=[DataRequired()],
+                            render_kw={"placeholder":"comment"})
+    submit = SubmitField('submit')
+
 class CreateMeasurement(FlaskForm):
     neck = DecimalField('neck', validators=[DataRequired()], render_kw={"placeholder":"neck"}, widget=NumberInput(step=0.1))
     shoulders = DecimalField('shoulders', validators=[DataRequired()], render_kw={"placeholder":"shoulders"}, widget=NumberInput(step=0.1))

@@ -232,6 +232,20 @@ form {
 	overflow: auto;
 }
 
+/*
+.comment {
+	display: block;
+}
+
+*/
+
+.comment-img {
+	max-width: 90px;
+	max-height: 90px;
+	border: 1px solid black;
+	margin:0 20px 20px 0;
+}
+
 @media screen and (max-width: 800px) {
 	.header a {
 		display: block;

@@ -9,6 +9,7 @@ from flask_migrate import Migrate, MigrateCommand
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5c404840f211c0609a21a1eaeb5dda44'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.jinja_env.globals.update(count=len)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
