@@ -24,8 +24,10 @@ def create_app(config_class=Config):
 	from aesthetic.users.routes import users
 	from aesthetic.posts.routes import posts
 	from aesthetic.main.routes import main
+	from aesthetic.errors.handlers import errors
 	app.register_blueprint(users)
 	app.register_blueprint(posts)
 	app.register_blueprint(main)
+	app.register_blueprint(errors)
 
 	return app
