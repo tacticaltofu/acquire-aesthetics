@@ -5,14 +5,14 @@
 			<div class="media profile-box login">
 				<div class="media-body">
 				<div class="mb-3">
-					<a href="{{ url_for('set_goals') }}">set goals</a>
-					<a href="{{ url_for('user_posts', username=user.username)}}">posts</a>
-					<a href="{{ url_for('user_comments', username=user.username) }}">comments</a>
+					<a href="{{ url_for('users.set_goals') }}">set goals</a>
+					<a href="{{ url_for('users.user_posts', username=user.username)}}">posts</a>
+					<a href="{{ url_for('users.user_comments', username=user.username) }}">comments</a>
 				</div>
 					<h4 class="media-heading">{{ user.username }}'s profile</h4>
 					<img class="profile-img" src="{{ image_file }}">
-						<a href="{{ url_for('change_username') }}">change username</a>
-						<a href="{{ url_for('change_password') }}">change password</a>
+						<a href="{{ url_for('users.change_username') }}">change username</a>
+						<a href="{{ url_for('users.change_password') }}">change password</a>
 						<form method="POST" action="" enctype="multipart/form-data">
 							{{ form.hidden_tag() }}
 							{{ form.picture.label(class="custom-file-label") }}
@@ -30,12 +30,12 @@
 		{% else %}
 			<div class="media profile-box logout">
 				<div class="media-body">
-				<div class="mb-3">
-					<a href="{{ url_for('user_posts', username=user.username)}}">posts</a>
-					<a href="{{ url_for('user_comments', username=user.username) }}">comments</a>
-				</div>
 					<h4 class="media-heading">{{ user.username }}'s profile</h4>
 					<img class="profile-img" src="{{ image_file }}">
+					<div class="mt-3">
+						<a href="{{ url_for('users.user_posts', username=user.username)}}">posts</a>
+						<a href="{{ url_for('users.user_comments', username=user.username) }}">comments</a>
+					</div>
 				</div>
 			</div>
 		{% endif %}

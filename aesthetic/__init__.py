@@ -3,21 +3,29 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flaskext.markdown import Markdown
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+from aesthetic.config import Config
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '5c404840f211c0609a21a1eaeb5dda44'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.jinja_env.globals.update(count=len)
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'danger'
-Markdown(app)
-migrate = Migrate(app, db)
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
 
-from aesthetic import routes
+def create_app(config_class=Config):
+	app = Flask(__name__)
+	app.config.from_object(Config)
+	app.jinja_env.globals.update(count=len)
+
+	db.init_app(app)
+	bcrypt.init_app(app)
+	login_manager.init_app(app)
+	Markdown(app)
+
+	from aesthetic.users.routes import users
+	from aesthetic.posts.routes import posts
+	from aesthetic.main.routes import main
+	app.register_blueprint(users)
+	app.register_blueprint(posts)
+	app.register_blueprint(main)
+
+	return app

@@ -35,7 +35,7 @@ class Comment(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=True)
     
     def __repr__(self):
         return f"Post('{self.date_posted}', '{self.content}')"
@@ -126,3 +126,11 @@ def populate_db():
     db.session.add(test_3)
 
     db.session.commit()
+
+
+def ghetto_migrate():
+    from aesthetic import create_app
+    app = create_app()
+    with app.app_context():
+        init_db()
+        populate_db()

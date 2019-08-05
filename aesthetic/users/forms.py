@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DecimalField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from wtforms.widgets.html5 import NumberInput
-from aesthetic.models import User
+from flask_login import current_user
+from aesthetic.models import User, Measurement, Goal
 
 class Register(FlaskForm):
     username = StringField('username',
@@ -65,18 +65,6 @@ class UpdateProfileInfo(FlaskForm):
     about_me = TextAreaField('about me', validators=[DataRequired()],
                             render_kw={"placeholder":"Some more information..."})
     update_info = SubmitField('update info')
-
-class CreatePost(FlaskForm):
-    title = StringField('title', validators=[DataRequired()],
-                        render_kw={"placeholder":"title"})
-    content = TextAreaField('content', validators=[DataRequired()],
-                            render_kw={"placeholder":"content"})
-    submit = SubmitField('submit')
-
-class CreateComment(FlaskForm):
-    content = TextAreaField('content', validators=[DataRequired()],
-                            render_kw={"placeholder":"comment"})
-    submit = SubmitField('submit')
 
 class CreateMeasurement(FlaskForm):
     neck = DecimalField('neck', validators=[DataRequired()], render_kw={"placeholder":"neck"}, widget=NumberInput(step=0.1))

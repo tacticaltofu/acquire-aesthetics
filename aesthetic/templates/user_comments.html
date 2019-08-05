@@ -6,10 +6,19 @@
 	{% for comment in comments.items %}
 		<div class="media content border">
 			<div class="media-left">
-				<a href="{{ url_for('profile', username=comment.author.username) }}"><img src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" class="media-object comment-img"></a>
+				<a href="{{ url_for('users.profile', username=comment.author.username) }}"><img src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" class="media-object comment-img"></a>
 			</div>
 			<div class="media-body">
-				<p class="formatted"><a href="{{ url_for('profile', username=comment.author.username) }}">{{ comment.author.username }}</a> commented on the post <a href="{{ url_for('post', post_id=comment.parent.id) }}">{{ comment.parent.title }}</a> on <a href="#">{{ comment.date_posted.strftime("%Y-%m-%d") }}</a>:</p>
+				<p>
+					<a href="{{ url_for('users.profile', username=comment.author.username) }}">{{ comment.author.username }}</a> commented on the post 
+					{% if comment.parent %}
+						<a href="{{ url_for('posts.post', post_id=comment.parent.id) }}">{{ comment.parent.title }}</a>
+					{% else %}
+						<a href="#">[deleted post]</a> 
+					{% endif %}
+					 on <a href="#">{{ comment.date_posted.strftime("%Y-%m-%d") }}</a>:
+				</p>
+			
 				<p class="formatted">{{ comment.content|markdown }}</p>
 			</div>
 			<br>
@@ -26,9 +35,9 @@
 	{% for page_num in comments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 		{% if page_num %}
 			{% if comments.page == page_num %}
-				<a href="{{ url_for('user_comments', page=page_num, username=user.username) }}" class="btn btn-secondary m-1 mb-4">{{ page_num }}</a>
+				<a href="{{ url_for('users.user_comments', page=page_num, username=user.username) }}" class="btn btn-secondary m-1 mb-4">{{ page_num }}</a>
 			{% else %}
-				<a href="{{ url_for('user_comments', page=page_num, username=user.username) }}" class="btn btn-outline-secondary m-1 mb-4">{{ page_num }}</a>
+				<a href="{{ url_for('users.user_comments', page=page_num, username=user.username) }}" class="btn btn-outline-secondary m-1 mb-4">{{ page_num }}</a>
 			{% endif %}
 		{% else %}
 			...
