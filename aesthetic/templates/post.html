@@ -26,26 +26,34 @@
 			<hr>
 		</div>
 	{% endfor %}
-	<div class="media content border">
-		<div class="media-body">
-			<form method="POST" action="">
-				{{ form.hidden_tag() }}
-				<div class="form-group">
-					{% if form.content.errors %}
-						{{ form.content(class="form-control is-invalid") }}
-						<div class="invalid-feedback">
-							{% for error in form.content.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.content(class="form-control", rows="3") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.submit(class="btn btn-default btn-block") }}
-				</div>
-			</form>
+	{% if current_user.is_authenticated %}
+		<div class="media content border">
+			<div class="media-body">
+				<form method="POST" action="">
+					{{ form.hidden_tag() }}
+					<div class="form-group">
+						{% if form.content.errors %}
+							{{ form.content(class="form-control is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.content.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.content(class="form-control", rows="3") }}
+						{% endif %}
+					</div>
+					<div class="form-group">
+						{{ form.submit(class="btn btn-default btn-block") }}
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
+	{% else %}
+		<div class="media content border">
+			<div class="media-body">
+				<p><a href="{{ url_for('users.login') }}">Login</a> or <a href="{{ url_for('users.register') }}">Register</a> to post a comment!</p>
+			</div>
+		</div>
+	{% endif %}
 {% endblock content %}
