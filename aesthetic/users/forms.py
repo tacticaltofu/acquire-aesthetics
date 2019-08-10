@@ -24,9 +24,11 @@ class Register(FlaskForm):
 
 class Login(FlaskForm):
     username = StringField('username',
-                           validators=[DataRequired(), Length(min=3, max=20)])
+                           validators=[DataRequired(), Length(min=3, max=20)],
+                           render_kw={"placeholder":"username"})
     password = PasswordField('password',
-                             validators=[DataRequired()])
+                             validators=[DataRequired()],
+                             render_kw={"placeholder":"password"})
     submit = SubmitField('login')
 
 
