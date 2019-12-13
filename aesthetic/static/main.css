@@ -97,7 +97,7 @@ form {
 	padding: 20px 20px 3px 20px;
 	border-radius: 10px;
 	background-color: white;
-	margin: 20px auto 0 auto;
+	margin: 20px auto 20px auto;
 	max-width: 300px;
 }
 
@@ -115,6 +115,7 @@ form {
   background-color: #eee;
   padding: 10px;
   border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .grid-container > div {
@@ -133,7 +134,7 @@ form {
 }
 
 .login {
-	max-height: 535px;
+	max-height: 540px;
 	overflow: auto;
 }
 
@@ -233,7 +234,7 @@ form {
 }
 
 .current-stats {
-	max-height: 470px;
+	max-height: 475px;
 	overflow: auto;
 }
 
@@ -265,5 +266,22 @@ form {
 	}
 	.grid-container {
 		grid-template-columns: auto;
+	}
+		.content {
+		margin: 10px;
+	}
+	.container {
+		padding: 0 0 0 5px;
+	}
+}
+
+@media screen and (max-width: 385px) {
+	.navbar ul {
+		margin: 0 0 10px 0;
+		padding: 0 5px 0 0;
+	}
+
+	.nav-right {
+		padding: 0;
 	}
 }
